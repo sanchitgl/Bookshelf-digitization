@@ -1,0 +1,15 @@
+-create Environment 
+virtualenv book_env
+
+-Activate environment 
+source book_env/bin/activate
+
+-run streamlit app
+streamlit run app.py
+
+- export dependencies
+pip3 freeze > requirements.txt
+
+- Install dependencies
+pip install -r requirements.txt
+
