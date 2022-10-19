@@ -76,7 +76,7 @@ def get_book_info(book_title):
     try:
         if title != 'NA':
             #print('hi')
-            response = urlopen("https://www.googleapis.com/books/v1/volumes?q="+title.replace(" ","+")+"+inauthor:"+author.replace(" ","+")+"&orderBy=relevance")
+            response = urlopen("https://www.googleapis.com/books/v1/volumes?q="+title.replace(" ","+")+"+inauthor:"+author.replace(" ","+")+"&orderBy=relevance",headers={'User-Agent' : "Magic Browser"})
             book_data = json.load(response)
             #print(book_data)
             volume_info = book_data["items"][0]["volumeInfo"]
@@ -86,7 +86,7 @@ def get_book_info(book_title):
                 if not isbn:
                     raise ValueError('invalid ISBN')
                 #print('hey')
-                response = urlopen("https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn+"&orderBy=relevance&printType=books")
+                response = urlopen("https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn+"&orderBy=relevance&printType=books",headers={'User-Agent' : "Magic Browser"})
                 book_data = json.load(response)
                 volume_info = book_data["items"][0]["volumeInfo"]
             except:
@@ -97,7 +97,7 @@ def get_book_info(book_title):
                 #     volume_info = book_data["items"][0]["volumeInfo"]
                 # except:
                 #print('hello')
-                response = urlopen("https://www.googleapis.com/books/v1/volumes?q="+book_title.replace(" ","+")+"&orderBy=relevance&printType=books")
+                response = urlopen("https://www.googleapis.com/books/v1/volumes?q="+book_title.replace(" ","+")+"&orderBy=relevance&printType=books",headers={'User-Agent' : "Magic Browser"})
                 book_data = json.load(response)
                 volume_info = book_data["items"][0]["volumeInfo"]
                 #print(volume_info)
