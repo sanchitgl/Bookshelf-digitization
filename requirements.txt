@@ -30,7 +30,7 @@ mahotas==1.4.13
 matplotlib==3.5.2
 networkx==2.8.5
 numpy==1.23.1
-opencv-python==4.6.0.66
+opencv-python==4.5.5.64
 opencv-python-headless==4.5.4.60
 packaging==21.3
 Pillow==9.2.0
