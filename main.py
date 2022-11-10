@@ -70,6 +70,6 @@ def get_book_names(path):
     # print(author)
     # print('##########################')
     #print(books)
-    return books 
+    return books
 
 #get_book_names('books.jpg')

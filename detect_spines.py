@@ -48,10 +48,10 @@ def spine_detect(img_path):
     h, theta, d = hough_line(edges, theta=tested_angles)
 
     # Generating figure 1
-    fig, axes = plt.subplots(1, 3, figsize=(15, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(15, 6))
     ax = axes.ravel()
 
-    ax[0].imshow(image, cmap=cm.gray)
+    ax[0].imshow(edges, cmap=cm.gray)
     ax[0].set_title('Input image')
     ax[0].set_axis_off()
 
@@ -60,16 +60,16 @@ def spine_detect(img_path):
     bounds = [np.rad2deg(theta[0] - angle_step),
             np.rad2deg(theta[-1] + angle_step),
             d[-1] + d_step, d[0] - d_step]
-    ax[1].imshow(np.log(1 + h), extent=bounds, cmap=cm.gray, aspect=1 / 1.5)
-    ax[1].set_title('Hough transform')
-    ax[1].set_xlabel('Angles (degrees)')
-    ax[1].set_ylabel('Distance (pixels)')
-    ax[1].axis('image')
+    # ax[1].imshow(np.log(1 + h), extent=bounds, cmap=cm.gray, aspect=1 / 1.5)
+    # ax[1].set_title('Hough transform')
+    # ax[1].set_xlabel('Angles (degrees)')
+    # ax[1].set_ylabel('Distance (pixels)')
+    # ax[1].axis('image')
 
-    ax[2].imshow(og_image)
-    ax[2].set_ylim((image.shape[0], 0))
-    ax[2].set_axis_off()
-    ax[2].set_title('Detected lines')
+    ax[1].imshow(og_image)
+    ax[1].set_ylim((image.shape[0], 0))
+    ax[1].set_axis_off()
+    #ax[1].set_title('Detected lines')
 
     points = []
     for _, angle, dist in zip(*hough_line_peaks(h, theta, d, min_distance = int(image.shape[1]/30))):
@@ -84,22 +84,28 @@ def spine_detect(img_path):
 
         #im = im.crop( (0, 0, 360, 222) ) # previously, image was 826 pixels wide, cropping to 825 pixels wide
         #im.save('card.png') # saves the image
-
-        ax[2].axline((x0, y0), slope=np.tan(angle + np.pi/2))
+        #y1 = (np.tan(angle + np.pi/2))*x1 + y0
+        #cv2.line(og_image,(x0,y0),(x1,y1),(0,0,255),2)
+        ax[1].axline((x0, y0), slope=np.tan(angle + np.pi/2), lw = 3.0)
     #     ax[2].plot((0, image.shape[1]), (y0, y1), '-r')
     # ax[2].set_xlim((0, image.shape[1]))
     # ax[2].set_ylim((image.shape[0], 0))
     # ax[2].set_axis_off()
     # ax[2].set_title('Detected lines')
-    # plt.tight_layout()
-    # plt.show()
+    extent = ax[1].get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+    fig.savefig('images_run/houghline.png', bbox_inches=extent)
+    extent_2 = ax[0].get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+    fig.savefig('images_run/canny_edge.png', bbox_inches=extent_2)
+    #plt.tight_layout()
+    #cv2.imwrite('houghlines3.jpg',img)
+    #plt.show()
     last_point = (image.shape[1],image.shape[1])
     points.append(last_point)
     points.sort(key=lambda y: y[0])
     return og_image, points
 
 
-# spine_detect('books.jpg')
+#spine_detect('books.jpg')
 # spine_detect('books_2.jpg')
 # spine_detect('img.jpeg')
 # spine_detect('spines.jpg')
